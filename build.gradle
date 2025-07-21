@@ -8,12 +8,33 @@ version = '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
 }
+def lwjglVersion = "3.3.3"
+def os = getOsName()
 
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    implementation "org.lwjgl:lwjgl:$lwjglVersion"
+    implementation "org.lwjgl:lwjgl-glfw:$lwjglVersion"
+    implementation "org.lwjgl:lwjgl-opengl:$lwjglVersion"
+
+    runtimeOnly "org.lwjgl:lwjgl:$lwjglVersion:natives-$os"
+    runtimeOnly "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-$os"
+    runtimeOnly "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-$os"
+
+    implementation "org.joml:joml:1.10.5"
+    implementation "net.objecthunter:exp4j:0.4.8"
 }
 
 test {
     useJUnitPlatform()
+}
+
+def getOsName() {
+    def osName = System.getProperty("os.name").toLowerCase()
+    if (osName.contains("windows")) return "windows"
+    if (osName.contains("mac")) return "macos"
+    if (osName.contains("linux")) return "linux"
+    throw new GradleException("Unsupported OS: $osName")
 }
