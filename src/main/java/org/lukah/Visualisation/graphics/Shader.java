@@ -4,10 +4,12 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 import static org.lwjgl.opengl.GL20.*;
 
@@ -17,8 +19,8 @@ public class Shader {
 
     public Shader(String vertexPath, String fragmentPath) throws IOException {
 
-        String vertexCode = Files.readString(Paths.get("src/main/resources"  + vertexPath));
-        String fragmentCode = Files.readString(Paths.get("src/main/resources"  + fragmentPath));
+        String vertexCode = readShaders(vertexPath);
+        String fragmentCode = readShaders(fragmentPath);
 
         int vertexID = compileShader(vertexCode, GL_VERTEX_SHADER);
         int fragmentID = compileShader(fragmentCode, GL_FRAGMENT_SHADER);
@@ -68,6 +70,20 @@ public class Shader {
         }
 
         return shaderID;
+    }
+
+    private String readShaders(String path) {
+
+        try (InputStream stream = getClass().getResourceAsStream(path)) {
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+            return reader.lines().collect(Collectors.joining("\n"));
+
+        } catch (IOException e) {
+
+            System.err.println("Could not find file named: " + e.getMessage());
+            return "";
+        }
     }
 
     public void bind() {
