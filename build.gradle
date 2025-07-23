@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'org.lukah'
-version = '1.0-SNAPSHOT'
+version = '0.1.0'
 
 repositories {
     mavenCentral()
@@ -37,4 +37,18 @@ def getOsName() {
     if (osName.contains("mac")) return "macos"
     if (osName.contains("linux")) return "linux"
     throw new GradleException("Unsupported OS: $osName")
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes(
+                'Main-Class': 'org.lukah.Visualisation.app.Application'
+        )
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it)}
+    }
 }
