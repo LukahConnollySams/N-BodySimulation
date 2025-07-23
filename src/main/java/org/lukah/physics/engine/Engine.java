@@ -1,14 +1,14 @@
-package org.lukah.Physics.engine;
+package org.lukah.physics.engine;
 
 import org.joml.Vector3f;
-import org.lukah.Physics.simulation.planetary.Body;
-import org.lukah.Physics.simulation.planetary.BodySim;
-import org.lukah.Visualisation.graphics.shapes.Sphere;
-import org.lukah.Visualisation.scene.SimulationObject;
+import org.lukah.physics.simulation.planetary.Body;
+import org.lukah.physics.simulation.planetary.BodySim;
+import org.lukah.visualisation.graphics.shapes.Sphere;
+import org.lukah.visualisation.scene.SimulationObject;
 
 import java.util.List;
 
-import static org.lukah.Visualisation.util.Conversions.*;
+import static org.lukah.visualisation.util.Conversions.*;
 
 public class Engine implements EngineController{
 

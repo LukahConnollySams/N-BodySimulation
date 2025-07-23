@@ -1,4 +1,4 @@
-package org.lukah.Physics.simulation.planetary;
+package org.lukah.physics.simulation.planetary;
 
 import org.joml.Vector3f;
 import java.util.ArrayList;

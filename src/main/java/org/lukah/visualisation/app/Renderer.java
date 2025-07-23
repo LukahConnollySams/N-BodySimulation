@@ -1,12 +1,12 @@
-package org.lukah.Visualisation.app;
+package org.lukah.visualisation.app;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lukah.Visualisation.graphics.Shader;
-import org.lukah.Visualisation.graphics.shapes.Mesh;
-import org.lukah.Visualisation.scene.Camera;
-import org.lukah.Visualisation.scene.Scene;
-import org.lukah.Visualisation.scene.SimulationObject;
+import org.lukah.visualisation.graphics.Shader;
+import org.lukah.visualisation.graphics.shapes.Mesh;
+import org.lukah.visualisation.scene.Camera;
+import org.lukah.visualisation.scene.Scene;
+import org.lukah.visualisation.scene.SimulationObject;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glUniform3f;

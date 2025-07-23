@@ -1,4 +1,4 @@
-package org.lukah.Visualisation.input;
+package org.lukah.visualisation.input;
 
 public class MultiKey {
 

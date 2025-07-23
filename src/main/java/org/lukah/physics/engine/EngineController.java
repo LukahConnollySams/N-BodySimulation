@@ -1,4 +1,4 @@
-package org.lukah.Physics.engine;
+package org.lukah.physics.engine;
 
 public interface EngineController {
 

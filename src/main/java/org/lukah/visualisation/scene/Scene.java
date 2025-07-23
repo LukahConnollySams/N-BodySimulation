@@ -1,4 +1,4 @@
-package org.lukah.Visualisation.scene;
+package org.lukah.visualisation.scene;
 
 import org.joml.Vector3f;
 

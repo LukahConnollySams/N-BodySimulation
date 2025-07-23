@@ -1,4 +1,4 @@
-package org.lukah.Physics.math;
+package org.lukah.physics.math;
 
 public final class Constants {
 

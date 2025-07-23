@@ -1,8 +1,8 @@
-package org.lukah.Visualisation.input;
+package org.lukah.visualisation.input;
 
 import org.joml.Vector3f;
-import org.lukah.Physics.engine.EngineController;
-import org.lukah.Visualisation.scene.Camera;
+import org.lukah.physics.engine.EngineController;
+import org.lukah.visualisation.scene.Camera;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;

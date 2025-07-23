@@ -1,8 +1,8 @@
-package org.lukah.Visualisation.scene;
+package org.lukah.visualisation.scene;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lukah.Visualisation.graphics.shapes.Mesh;
+import org.lukah.visualisation.graphics.shapes.Mesh;
 
 public class SimulationObject {
 

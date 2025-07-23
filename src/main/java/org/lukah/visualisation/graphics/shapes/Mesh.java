@@ -1,4 +1,4 @@
-package org.lukah.Visualisation.graphics.shapes;
+package org.lukah.visualisation.graphics.shapes;
 
 import static org.lwjgl.opengl.GL15.glDeleteBuffers;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;

@@ -1,14 +1,14 @@
-package org.lukah.Visualisation.app;
+package org.lukah.visualisation.app;
 
-import org.lukah.Physics.engine.Engine;
-import org.lukah.Visualisation.graphics.Shader;
-import org.lukah.Visualisation.input.InputManager;
-import org.lukah.Visualisation.scene.Camera;
-import org.lukah.Visualisation.scene.Scene;
+import org.lukah.physics.engine.Engine;
+import org.lukah.visualisation.graphics.Shader;
+import org.lukah.visualisation.input.InputManager;
+import org.lukah.visualisation.scene.Camera;
+import org.lukah.visualisation.scene.Scene;
 
 import java.io.IOException;
 
-import static org.lukah.Visualisation.util.Conversions.metersToAU;
+import static org.lukah.visualisation.util.Conversions.metersToAU;
 
 public class Application {
 

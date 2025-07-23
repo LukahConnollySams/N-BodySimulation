@@ -1,4 +1,4 @@
-package org.lukah.Visualisation.util;
+package org.lukah.visualisation.util;
 
 import org.joml.Vector3f;
 

@@ -1,6 +1,6 @@
-package org.lukah.Visualisation.app;
+package org.lukah.visualisation.app;
 
-import org.lukah.Visualisation.input.InputManager;
+import org.lukah.visualisation.input.InputManager;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWVidMode;

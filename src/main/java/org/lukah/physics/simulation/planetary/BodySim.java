@@ -1,8 +1,8 @@
-package org.lukah.Physics.simulation.planetary;
+package org.lukah.physics.simulation.planetary;
 
 import org.joml.Vector3f;
-import org.lukah.Physics.math.Constants;
-import org.lukah.Physics.utils.MathParser;
+import org.lukah.physics.math.Constants;
+import org.lukah.physics.utils.MathParser;
 
 import java.io.*;
 import java.util.ArrayList;

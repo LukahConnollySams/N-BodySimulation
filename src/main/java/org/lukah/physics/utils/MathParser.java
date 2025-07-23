@@ -1,8 +1,8 @@
-package org.lukah.Physics.utils;
+package org.lukah.physics.utils;
 
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
-import org.lukah.Physics.math.Constants;
+import org.lukah.physics.math.Constants;
 
 public class MathParser {
 

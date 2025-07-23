@@ -1,4 +1,4 @@
-package org.lukah.Visualisation.graphics;
+package org.lukah.visualisation.graphics;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;

@@ -1,4 +1,4 @@
-package org.lukah.Visualisation.graphics.shapes;
+package org.lukah.visualisation.graphics.shapes;
 
 import org.lwjgl.BufferUtils;
 
