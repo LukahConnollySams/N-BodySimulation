@@ -59,6 +59,8 @@ public class WindowManager {
         }
 
         GLFW.glfwMakeContextCurrent(window);
+        GLFW.glfwMaximizeWindow(window);
+
         GL.createCapabilities();
 
         GLFW.glfwSwapInterval(1);
