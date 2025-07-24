@@ -42,6 +42,10 @@ public class Renderer {
 
         shader.setUniform("viewProj", camera.getViewProjection());
 
+        shader.setUniform("lightDir", scene.getAmbientLight().getDirection());
+        shader.setUniform("ambientColour", scene.getAmbientLight().getAmbientColour());
+        shader.setUniform("lightColour", scene.getAmbientLight().getColour());
+
         for (SimulationObject object : scene.getObjects()) {
 
             this.render(object.getMesh(), object.getTransform(), object.getColour());

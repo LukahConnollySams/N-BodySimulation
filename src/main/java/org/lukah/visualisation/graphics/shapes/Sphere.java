@@ -1,5 +1,6 @@
 package org.lukah.visualisation.graphics.shapes;
 
+import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
@@ -31,15 +32,18 @@ public class Sphere extends Mesh {
         List<Float> vertices = genVertices();
         List<Integer> indices = genIndices();
 
-        float[] vertexArray = genVertexArray(vertices);
-        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertexArray.length);
-        vertexBuffer.put(vertexArray).flip();
-
         int[] indexArray = indices.stream().mapToInt(Integer::intValue).toArray();
         IntBuffer indexBuffer = BufferUtils.createIntBuffer(indexArray.length);
         indexBuffer.put(indexArray).flip();
 
         vertexCount = indexArray.length;
+
+        List<Float> normals = genNormals(vertices);
+
+        float[] vertexArray = genVertexArray(vertices, normals);
+        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertexArray.length);
+        vertexBuffer.put(vertexArray).flip();
+
         vao = glGenVertexArrays();
         glBindVertexArray(vao);
 
@@ -47,8 +51,11 @@ public class Sphere extends Mesh {
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * Float.BYTES, 0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 6 * Float.BYTES, 0);
         glEnableVertexAttribArray(0);
+
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 6 * Float.BYTES, 3 * Float.BYTES);
+        glEnableVertexAttribArray(1);
 
         ebo = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
@@ -119,5 +126,46 @@ public class Sphere extends Mesh {
         }
 
         return vertexArray;
+    }
+
+    private float[] genVertexArray(List<Float> vertices, List<Float> normals) {
+
+        int verticesSize = vertices.size() / 3;
+
+        float[] vertexArray = new float[verticesSize * 6];
+
+        for (int i = 0; i < verticesSize; i++) {
+
+            // assigns first three float to positions, and second set to normals
+            vertexArray[i * 6] = vertices.get(i * 3);
+            vertexArray[i * 6 + 1] = vertices.get(i * 3 + 1);
+            vertexArray[i * 6 + 2] = vertices.get(i * 3 + 2);
+
+            vertexArray[i * 6 + 3] = normals.get(i * 3);
+            vertexArray[i * 6 + 4] = normals.get(i * 3 + 1);
+            vertexArray[i * 6 + 5] = normals.get(i * 3 + 2);
+        }
+
+        return vertexArray;
+    }
+
+    private List<Float> genNormals(List<Float> vertices) {
+
+        List<Float> normals = new ArrayList<>();
+
+        for (int i = 0; i < vertices.size(); i += 3) {
+
+            Vector3f vector = new Vector3f(
+                    vertices.get(i),
+                    vertices.get(i + 1),
+                    vertices.get(i + 2)
+            ).normalize();
+
+            normals.add(vector.x);
+            normals.add(vector.y);
+            normals.add(vector.z);
+        }
+
+        return normals;
     }
 }
