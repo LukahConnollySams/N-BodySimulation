@@ -1,5 +1,7 @@
 package org.lukah.visualisation.app;
 
+import org.lukah.config.ConfigLoader;
+import org.lukah.config.Settings;
 import org.lukah.physics.engine.Engine;
 import org.lukah.visualisation.graphics.Shader;
 import org.lukah.visualisation.input.InputManager;
@@ -17,7 +19,9 @@ public class Application {
     private Scene scene;
     private Engine engine;
     private Camera camera;
-    private int frameRate = 60;
+    private int frameRate;
+
+    Settings settings;
 
     public void setFrameRate(int frameRate) {
         this.frameRate = frameRate;
@@ -25,14 +29,26 @@ public class Application {
 
     public void run(){
 
-        this.engine = new Engine();
+        try {
+
+            this.settings = ConfigLoader.load();
+
+        } catch (IOException e) {
+
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        this.frameRate = settings.appSettings.frameRate;
+
+        this.engine = new Engine(settings.engineSettings);
         this.scene = new Scene();
 
-        this.windowManager = new WindowManager();
+        this.windowManager = new WindowManager(settings.windowSettings);
         windowManager.init();
 
-        this.camera = new Camera(currentAspectRatio());
-        windowManager.setInputManager(new InputManager(engine, camera));
+        this.camera = new Camera(currentAspectRatio(), settings.cameraSettings);
+        windowManager.setInputManager(new InputManager(engine, camera, settings.keyBindings, settings.cameraSettings));
         windowManager.initCallbacks();
 
 
@@ -68,9 +84,13 @@ public class Application {
             while (steps >= secsPerUpdate) {
                 engine.update();
                 steps -= secsPerUpdate;
+
+                //System.out.println("trying to update engine");
             }
 
             scene.updateObjects(metersToAU(engine.getUpdatedPositions()));
+
+            //System.out.println(scene.getObjects().get(1).getTransform());
 
             renderer.renderScene(scene);
 
@@ -114,8 +134,11 @@ public class Application {
 
     public static void main(String[] args) {
 
+
         Application app = new Application();
         app.setFrameRate(60);
         app.run();
+
+
     }
 }

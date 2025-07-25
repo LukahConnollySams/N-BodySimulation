@@ -1,6 +1,7 @@
 package org.lukah.physics.engine;
 
 import org.joml.Vector3f;
+import org.lukah.config.Settings;
 import org.lukah.physics.simulation.planetary.Body;
 import org.lukah.physics.simulation.planetary.BodySim;
 import org.lukah.visualisation.graphics.shapes.Sphere;
@@ -12,11 +13,19 @@ import static org.lukah.visualisation.util.Conversions.*;
 
 public class Engine implements EngineController{
 
-    private boolean paused = false;
+    private boolean paused;
     private BodySim simulation;
 
     public Engine() {
+
+        this.paused = false;
         this.simulation = new BodySim();
+    }
+
+    public Engine(Settings.EngineSettings settings) {
+
+        this.paused = settings.startPaused;
+        this.simulation = new BodySim(settings.setupFile, settings.timeStep, settings.length);
     }
 
     public SimulationObject[] getSimObjects(int resolution) {
@@ -48,7 +57,6 @@ public class Engine implements EngineController{
     public void update() {
 
             if (!paused && simulation.getTime() < simulation.getLength()) {
-
                 simulation.update();
             }
     }
@@ -67,7 +75,7 @@ public class Engine implements EngineController{
     public void engineSlowDown() {
 
         if (paused) {
-            this.simulation.setTimeStep(simulation.getTimeStep() * 0.9);
+            this.simulation.setTimeStep((float) (simulation.getTimeStep() * 0.9));
         }
     }
 
@@ -75,7 +83,7 @@ public class Engine implements EngineController{
     public void engineSpeedUp() {
 
         if (paused) {
-            this.simulation.setTimeStep(simulation.getTimeStep() * 1.1);
+            this.simulation.setTimeStep((float) (simulation.getTimeStep() * 1.1));
         }
     }
 }

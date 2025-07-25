@@ -2,6 +2,7 @@ package org.lukah.visualisation.scene;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.lukah.config.Settings;
 
 public class Camera {
 
@@ -15,17 +16,17 @@ public class Camera {
 
     float speed;
 
-    public Camera(float aspectRatio) {
+    public Camera(float aspectRatio, Settings.CameraSettings settings) {
 
-        projection = new Matrix4f().perspective((float) Math.toRadians(60.0f), aspectRatio, 0.01f, 100f);
+        projection = new Matrix4f().perspective((float) Math.toRadians(settings.fov), aspectRatio, settings.zNear, settings.zFar);
         view = new Matrix4f();
         viewProjection = new Matrix4f();
 
-        position = new Vector3f(0, -3.5f, 0.075f);
-        target = new Vector3f(0, 0, 0);
+        position = new Vector3f(settings.initPosition);
+        target = new Vector3f(settings.initTarget);
         up = new Vector3f(0, 1f, 0);
 
-        speed = 0.1f;
+        speed = settings.moveSpeed;
 
         updateViewProjection();
     }

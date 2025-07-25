@@ -1,5 +1,6 @@
 package org.lukah.visualisation.app;
 
+import org.lukah.config.Settings;
 import org.lukah.visualisation.input.InputManager;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
@@ -18,12 +19,14 @@ public class WindowManager {
     private int width, height;
     private final String title = "Simulation";
 
+    Settings.WindowSettings settings;
+
     private InputManager inputManager;
     private GLFWKeyCallback keyCallback;
     private GLDebugMessageCallback debugCallback;
 
-    public WindowManager() {
-
+    public WindowManager(Settings.WindowSettings settings) {
+        this.settings = settings;
     }
 
     public void init() {
@@ -42,8 +45,8 @@ public class WindowManager {
 
         if (videoMode == null) {
 
-            width = 800;
-            height = 600;
+            width = settings.defaultWidth;
+            height = settings.defaultHeight;
 
         } else {
 
@@ -59,7 +62,11 @@ public class WindowManager {
         }
 
         GLFW.glfwMakeContextCurrent(window);
-        GLFW.glfwMaximizeWindow(window);
+
+        if (settings.launchFullscreen) {
+
+            GLFW.glfwMaximizeWindow(window);
+        }
 
         GL.createCapabilities();
 

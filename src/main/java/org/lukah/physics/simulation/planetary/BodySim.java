@@ -14,18 +14,22 @@ public class BodySim {
 
     Body[] bodies;
     int length;
-    double timeStep;
+    float timeStep;
     int time;
     Vector3f[][] displacements;
 
     public BodySim(){
+       this("/simulation/defaultSetup.txt", 18000, 40000);
+    }
 
-        // defaults for simulation to update and stop
-        this.length = 18000;
+    public BodySim(String filePath, float timeStep, int length) {
+
+        this.length = length;
         this.time = 0;
+        this.timeStep = timeStep;
 
         //read from file or database
-        try (InputStream stream = getClass().getResourceAsStream("/simulation/defaultSetup.txt")) {
+        try (InputStream stream = getClass().getResourceAsStream(filePath)) {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
             List<String> file = reader.lines().toList();
@@ -33,17 +37,17 @@ public class BodySim {
             List<Body> tempBodies = new ArrayList<>();
             for (String line : file) {
                 if (!line.startsWith("#")) {
-                    tempBodies.add(bodyFromLine(line));
+                    Body tempBody = bodyFromLine(line);
+                    tempBody.setTimeStep(this.timeStep);
+                    tempBodies.add(tempBody);
                 }
             }
+
             bodies =  tempBodies.toArray(new Body[0]);
 
         } catch (IOException e) {
             System.out.println("Could not finds file named: " + e.getMessage());
         }
-
-        setTimeStep(18000);
-
 
         this.acceleration(1);
     }
@@ -75,14 +79,14 @@ public class BodySim {
         return time;
     }
 
-    public double getTimeStep() {
+    public float getTimeStep() {
         return timeStep;
     }
 
-    public void setTimeStep(double timeStep) {
+    public void setTimeStep(float timeStep) {
 
         for (Body body : bodies) {
-            body.setTimeStep((float) timeStep);
+            body.setTimeStep(timeStep);
         }
         this.timeStep = timeStep;
     }
