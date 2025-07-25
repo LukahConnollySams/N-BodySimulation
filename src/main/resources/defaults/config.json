@@ -1,0 +1,38 @@
+{
+  "appSettings": {
+    "frameRate": 60
+  },
+  "cameraSettings": {
+    "fov": 60.0,
+    "zNear": 0.01,
+    "zFar": 100,
+    "initPosition": [0, -3.5, 0.075],
+    "initTarget": [0, 0, 0],
+    "moveSpeed": 0.1,
+    "fastMoveSpeed": 0.01,
+    "turnSpeed": 1
+  },
+  "engineSettings": {
+    "startPaused": false,
+    "timeStep": 18000,
+    "length": 40000,
+    "setupFile": "/simulation/defaultSetup.txt"
+  },
+  "keyBindings": {
+    "pause": "ESCAPE",
+    "moveForward": "W",
+    "moveLeft": "A",
+    "moveBack": "S",
+    "moveRight": "D",
+    "moveDown": "C",
+    "moveUp": "SPACE",
+    "moveFastMod": "SHIFT_MOD",
+    "slowEngine": "LEFT",
+    "hasteEngine": "RIGHT"
+  },
+  "windowSettings": {
+    "defaultWidth": 800,
+    "defaultHeight": 600,
+    "launchFullscreen": true
+  }
+}
