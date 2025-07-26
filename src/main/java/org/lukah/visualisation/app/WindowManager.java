@@ -3,13 +3,18 @@ package org.lukah.visualisation.app;
 import org.lukah.config.Settings;
 import org.lukah.visualisation.input.InputManager;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLDebugMessageCallback;
+import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
+import java.nio.IntBuffer;
+
 import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glViewport;
 import static org.lwjgl.opengl.GL43.GL_DEBUG_OUTPUT;
 import static org.lwjgl.opengl.GL43.glDebugMessageCallback;
 
@@ -23,6 +28,7 @@ public class WindowManager {
 
     private InputManager inputManager;
     private GLFWKeyCallback keyCallback;
+    private GLFWFramebufferSizeCallback frameBufferCallback;
     private GLDebugMessageCallback debugCallback;
 
     public WindowManager(Settings.WindowSettings settings) {
@@ -70,6 +76,13 @@ public class WindowManager {
 
         GL.createCapabilities();
 
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            IntBuffer fbWidth = stack.mallocInt(1);
+            IntBuffer fbHeight = stack.mallocInt(1);
+            GLFW.glfwGetFramebufferSize(window, fbWidth, fbHeight);
+            viewport(fbWidth.get(0), fbHeight.get(0));
+        }
+
         GLFW.glfwSwapInterval(1);
 
         GLFW.glfwShowWindow(window);
@@ -101,6 +114,16 @@ public class WindowManager {
             String msg = GLDebugMessageCallback.getMessage(length, message);
             System.err.println("[GL DEBUG] " + msg);
         });
+
+        frameBufferCallback = new GLFWFramebufferSizeCallback() {
+            @Override
+            public void invoke(long window, int fbWidth, int fbHeight) {
+                viewport(fbWidth, fbHeight);
+            }
+        };
+
+        GLFW.glfwSetFramebufferSizeCallback(window, frameBufferCallback);
+
         glDebugMessageCallback(debugCallback, 0);
     }
 
@@ -119,8 +142,17 @@ public class WindowManager {
 
     public void cleanup() {
 
-        if (keyCallback != null) keyCallback.free();
+        keyCallback.free();
+        frameBufferCallback.free();
         debugCallback.free();
+    }
+
+    public void viewport(int fbWidth, int fbHeight) {
+
+        glViewport(0, 0, fbWidth, fbHeight);
+
+        this.width = fbWidth;
+        this.height = fbHeight;
     }
 
     public void close() {
