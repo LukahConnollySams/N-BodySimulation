@@ -7,9 +7,13 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLDebugMessageCallback;
+import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
+import java.nio.IntBuffer;
+
 import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glViewport;
 import static org.lwjgl.opengl.GL43.GL_DEBUG_OUTPUT;
 import static org.lwjgl.opengl.GL43.glDebugMessageCallback;
 
@@ -70,6 +74,13 @@ public class WindowManager {
 
         GL.createCapabilities();
 
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            IntBuffer fbWidth = stack.mallocInt(1);
+            IntBuffer fbHeight = stack.mallocInt(1);
+            GLFW.glfwGetFramebufferSize(window, fbWidth, fbHeight);
+            viewport(fbWidth.get(0), fbHeight.get(0));
+        }
+
         GLFW.glfwSwapInterval(1);
 
         GLFW.glfwShowWindow(window);
@@ -101,6 +112,9 @@ public class WindowManager {
             String msg = GLDebugMessageCallback.getMessage(length, message);
             System.err.println("[GL DEBUG] " + msg);
         });
+
+        GLFW.glfwSetFramebufferSizeCallback(window, (win, fbWidth, fbHeight) -> viewport(fbWidth, fbHeight));
+
         glDebugMessageCallback(debugCallback, 0);
     }
 
@@ -121,6 +135,14 @@ public class WindowManager {
 
         if (keyCallback != null) keyCallback.free();
         debugCallback.free();
+    }
+
+    public void viewport(int fbWidth, int fbHeight) {
+
+        glViewport(0, 0, fbWidth, fbHeight);
+
+        this.width = fbWidth;
+        this.height = fbHeight;
     }
 
     public void close() {
