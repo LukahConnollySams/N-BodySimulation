@@ -8,7 +8,7 @@ uniform vec3 ambientColour;
 uniform vec3 lightColour;
 uniform vec3 objectColour;
 
-out vec4 FragColor;
+out vec4 FragColour;
 
 void main() {
 
@@ -23,5 +23,5 @@ void main() {
 
     vec3 finalColour = ambient + diffuse;
 
-    FragColor = vec4(finalColour, 1.0); // orange color
+    FragColour = vec4(finalColour, 1.0); // orange color
 }

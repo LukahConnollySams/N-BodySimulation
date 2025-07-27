@@ -30,6 +30,25 @@
     "slowEngine": "LEFT",
     "hasteEngine": "RIGHT"
   },
+  "renderSettings": {
+    "clearColour": [0.0, 0.0, 0.0, 1.0],
+    "defaultObjectColour": [0.6, 0.3, 0.2],
+    "trailColour": [1.0, 1.0, 1.0]
+  },
+  "sceneSettings": {
+    "lightDirection": [-1.0, -1.0, -1.0],
+    "lightColour": [1.0, 1.0, 1.0],
+    "ambientColour": [0.2, 0.2, 0.2]
+  },
+  "trailSettings": {
+    "lifeTime": 10000,
+    "length": 10000
+  },
+  "shapeSettings": {
+    "sphereSettings": {
+      "resolution": 32
+    }
+  },
   "windowSettings": {
     "defaultWidth": 800,
     "defaultHeight": 600,

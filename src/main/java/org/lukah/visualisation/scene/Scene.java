@@ -1,6 +1,7 @@
 package org.lukah.visualisation.scene;
 
 import org.joml.Vector3f;
+import org.lukah.config.Settings;
 import org.lukah.visualisation.graphics.Light;
 
 import java.util.ArrayList;
@@ -10,14 +11,21 @@ import java.util.List;
 public class Scene {
 
     List<SimulationObject> objects = new ArrayList<>();
-    Light ambientLight = new Light(
-            new Vector3f(-1f, -1f, -1f),
-            new Vector3f(1f, 1f, 1f),
-            new Vector3f(0.2f, 0.2f, 0.2f)
-    );
+    Light ambientLight;
+    Settings.SceneSettings settings;
 
+    public Scene(Settings.SceneSettings settings) {
+
+        this.settings = settings;
+        this.ambientLight = new Light(
+            new Vector3f(settings.lightDirection),
+            new Vector3f(settings.lightColour),
+            new Vector3f(settings.ambientColour)
+    );
+    }
 
     public void addObject(SimulationObject object) {
+
         objects.add(object);
     }
 

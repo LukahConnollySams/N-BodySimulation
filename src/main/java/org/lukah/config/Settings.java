@@ -43,6 +43,35 @@ public class Settings {
         public KeyBindings() {}
     }
 
+    public static class RenderSettings {
+
+        public float[] clearColour;
+        public float[] defaultObjectColour;
+        public float[] trailColour;
+    }
+
+    public static class SceneSettings {
+
+        public float[] lightDirection;
+        public float[] lightColour;
+        public float[] ambientColour;
+    }
+
+    public static class TrailSettings {
+
+        public float lifeTime;
+        public int length;
+    }
+
+    public static class ShapeSettings {
+
+        public SphereSettings sphereSettings;
+
+        public static class SphereSettings {
+            public int resolution;
+        }
+    }
+
     public static class WindowSettings {
 
         public int defaultWidth;
@@ -54,5 +83,9 @@ public class Settings {
     public CameraSettings cameraSettings;
     public EngineSettings engineSettings;
     public KeyBindings keyBindings;
+    public RenderSettings renderSettings;
+    public SceneSettings sceneSettings;
+    public ShapeSettings shapeSettings;
+    public TrailSettings trailSettings;
     public WindowSettings windowSettings;
 }

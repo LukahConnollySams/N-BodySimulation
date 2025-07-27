@@ -74,7 +74,7 @@ public class Engine implements EngineController{
     @Override
     public void engineSlowDown() {
 
-        if (paused) {
+        if (!paused) {
             this.simulation.setTimeStep((float) (simulation.getTimeStep() * 0.9));
         }
     }
@@ -82,7 +82,7 @@ public class Engine implements EngineController{
     @Override
     public void engineSpeedUp() {
 
-        if (paused) {
+        if (!paused) {
             this.simulation.setTimeStep((float) (simulation.getTimeStep() * 1.1));
         }
     }

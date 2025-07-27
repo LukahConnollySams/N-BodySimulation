@@ -4,9 +4,11 @@ import org.lukah.config.ConfigLoader;
 import org.lukah.config.Settings;
 import org.lukah.physics.engine.Engine;
 import org.lukah.visualisation.graphics.Shader;
+import org.lukah.visualisation.graphics.shapes.TrailLine;
 import org.lukah.visualisation.input.InputManager;
 import org.lukah.visualisation.scene.Camera;
 import org.lukah.visualisation.scene.Scene;
+import org.lukah.visualisation.scene.SimulationObject;
 
 import java.io.IOException;
 
@@ -42,7 +44,7 @@ public class Application {
         this.frameRate = settings.appSettings.frameRate;
 
         this.engine = new Engine(settings.engineSettings);
-        this.scene = new Scene();
+        this.scene = new Scene(settings.sceneSettings);
 
         this.windowManager = new WindowManager(settings.windowSettings);
         windowManager.init();
@@ -56,7 +58,9 @@ public class Application {
 
             this.renderer = new Renderer(
                     new Shader("/shaders/basic.vert","/shaders/basic.frag"),
-                    camera);
+                    new Shader("/shaders/trail.vert", "/shaders/trail.frag"),
+                    camera,
+                    settings.renderSettings);
 
         } catch (IOException e) {
 
@@ -65,7 +69,13 @@ public class Application {
             return;
         }
 
-        scene.addObjects(engine.getSimObjects(32));
+        SimulationObject[] simObjects = engine.getSimObjects(settings.shapeSettings.sphereSettings.resolution);
+
+        for (SimulationObject object : simObjects) {
+
+            object.bindTrail(new TrailLine(settings.trailSettings.lifeTime, settings.trailSettings.length));
+            scene.addObject(object);
+        }
 
         // values below used to throttle rendering to match frame rate
         double secsPerUpdate = 1.0 / (frameRate * 0.6);
@@ -82,15 +92,12 @@ public class Application {
 
             // update engine until time for a frame has passed, then render
             while (steps >= secsPerUpdate) {
+
                 engine.update();
                 steps -= secsPerUpdate;
-
-                //System.out.println("trying to update engine");
             }
 
             scene.updateObjects(metersToAU(engine.getUpdatedPositions()));
-
-            //System.out.println(scene.getObjects().get(1).getTransform());
 
             renderer.renderScene(scene);
 
