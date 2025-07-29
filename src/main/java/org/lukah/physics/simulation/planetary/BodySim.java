@@ -19,7 +19,7 @@ public class BodySim {
     Vector3f[][] displacements;
 
     public BodySim(){
-       this("/simulation/defaultSetup.txt", 18000, 40000);
+       this("/defaults/default-setup.txt", 18000, 40000);
     }
 
     public BodySim(String filePath, float timeStep, int length) {

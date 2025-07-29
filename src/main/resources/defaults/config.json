@@ -16,7 +16,7 @@
     "startPaused": false,
     "timeStep": 18000,
     "length": 40000,
-    "setupFile": "/simulation/defaultSetup.txt"
+    "setupFile": "/defaults/default-setup.txt"
   },
   "keyBindings": {
     "pause": "ESCAPE",
