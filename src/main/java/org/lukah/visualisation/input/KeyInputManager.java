@@ -9,12 +9,12 @@ import org.lwjgl.glfw.GLFW;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InputManager {
+public class KeyInputManager {
 
     private final Map<MultiKey, Runnable> keyBinds = new HashMap<>();
-    private Settings.KeyBindings keyBindings;
+    private final Settings.KeyBindings keyBindings;
 
-    public InputManager(EngineController controller, Camera camera, Settings.KeyBindings keyBindings, Settings.CameraSettings cameraSettings) {
+    public KeyInputManager(EngineController controller, Camera camera, Settings.KeyBindings keyBindings, Settings.CameraSettings cameraSettings) {
 
         this.keyBindings = keyBindings;
 
@@ -24,26 +24,26 @@ public class InputManager {
         registerMovementBindings(camera, cameraSettings.fastMoveSpeed, keyBindings.moveFastMod);
     }
 
-    public void bind(int key, int mods, Runnable action) {
+    public void bindKey(int key, int mods, Runnable action) {
 
         this.keyBinds.put(new MultiKey(key, mods), action);
     }
 
     public void registerEngineBindings(EngineController controller) {
 
-        bind(keyBindings.pause, 0, controller::togglePause);
-        bind(keyBindings.slowEngine, 0, controller::engineSlowDown);
-        bind(keyBindings.hasteEngine, 0, controller::engineSpeedUp);
+        bindKey(keyBindings.pause, 0, controller::togglePause);
+        bindKey(keyBindings.slowEngine, 0, controller::engineSlowDown);
+        bindKey(keyBindings.hasteEngine, 0, controller::engineSpeedUp);
     }
 
     public void registerMovementBindings(Camera camera, float speed, int mods) {
 
-        bind(keyBindings.moveForward, mods, () -> camera.move(new Vector3f(0, 1f, 0), speed));
-        bind(keyBindings.moveLeft, mods, () -> camera.move(new Vector3f(-1f, 0, 0), speed));
-        bind(keyBindings.moveBack, mods, () -> camera.move(new Vector3f(0, -1f, 0), speed));
-        bind(keyBindings.moveRight, mods, () -> camera.move(new Vector3f(1, 0, 0), speed));
-        bind(keyBindings.moveUp, mods, () -> camera.move(new Vector3f(0, 0, 1f), speed));
-        bind(keyBindings.moveDown, mods, () -> camera.move(new Vector3f(0, 0, -1f), speed));
+        bindKey(keyBindings.moveForward, mods, () -> camera.move(new Vector3f(0, 1f, 0), speed));
+        bindKey(keyBindings.moveLeft, mods, () -> camera.move(new Vector3f(-1f, 0, 0), speed));
+        bindKey(keyBindings.moveBack, mods, () -> camera.move(new Vector3f(0, -1f, 0), speed));
+        bindKey(keyBindings.moveRight, mods, () -> camera.move(new Vector3f(1, 0, 0), speed));
+        bindKey(keyBindings.moveUp, mods, () -> camera.move(new Vector3f(0, 0, 1f), speed));
+        bindKey(keyBindings.moveDown, mods, () -> camera.move(new Vector3f(0, 0, -1f), speed));
     }
 
     public void handleKeyEvent(int key, int mods, int action) {

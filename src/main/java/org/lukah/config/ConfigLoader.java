@@ -16,6 +16,7 @@ public class ConfigLoader {
     private static final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(Settings.KeyBindings.class, new KeyMapper())
+            .registerTypeAdapter(Settings.MouseButtonBindings.class, new MouseButtonMapper())
             .create();
 
     public static Settings load() throws IOException {

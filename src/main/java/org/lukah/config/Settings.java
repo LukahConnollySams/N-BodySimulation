@@ -16,7 +16,8 @@ public class Settings {
         public float[] initTarget;
         public float moveSpeed;
         public float fastMoveSpeed;
-        public float turnSpeed;
+        public float horizontalSensitivity;
+        public float verticalSensitivity;
     }
 
     public static class EngineSettings {
@@ -41,6 +42,10 @@ public class Settings {
         public int hasteEngine;
 
         public KeyBindings() {}
+    }
+
+    public static class MouseButtonBindings {
+        public int toggleCamera;
     }
 
     public static class RenderSettings {
@@ -83,6 +88,7 @@ public class Settings {
     public CameraSettings cameraSettings;
     public EngineSettings engineSettings;
     public KeyBindings keyBindings;
+    public MouseButtonBindings mouseButtonBindings;
     public RenderSettings renderSettings;
     public SceneSettings sceneSettings;
     public ShapeSettings shapeSettings;

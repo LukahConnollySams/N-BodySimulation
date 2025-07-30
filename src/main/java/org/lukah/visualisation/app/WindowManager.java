@@ -1,11 +1,9 @@
 package org.lukah.visualisation.app;
 
 import org.lukah.config.Settings;
-import org.lukah.visualisation.input.InputManager;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
-import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.glfw.GLFWVidMode;
+import org.lukah.visualisation.input.KeyInputManager;
+import org.lukah.visualisation.input.MouseInputManager;
+import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLDebugMessageCallback;
 import org.lwjgl.system.MemoryStack;
@@ -26,9 +24,13 @@ public class WindowManager {
 
     Settings.WindowSettings settings;
 
-    private InputManager inputManager;
+    private KeyInputManager keyInputManager;
+    private MouseInputManager mouseInputManager;
     private GLFWKeyCallback keyCallback;
     private GLFWFramebufferSizeCallback frameBufferCallback;
+    private GLFWMouseButtonCallback mouseButtonCallback;
+    private GLFWCursorEnterCallback cursorEnterCallback;
+    private GLFWCursorPosCallback cursorPosCallback;
     private GLDebugMessageCallback debugCallback;
 
     public WindowManager(Settings.WindowSettings settings) {
@@ -96,8 +98,12 @@ public class WindowManager {
         return width;
     }
 
-    public void setInputManager(InputManager inputManager) {
-        this.inputManager = inputManager;
+    public void setInputManager(KeyInputManager keyInputManager) {
+        this.keyInputManager = keyInputManager;
+    }
+
+    public void setMouseInputManager(MouseInputManager mouseManager) {
+        this.mouseInputManager = mouseManager;
     }
 
     public void initCallbacks() {
@@ -105,7 +111,7 @@ public class WindowManager {
         keyCallback = new GLFWKeyCallback() {
             @Override
             public void invoke(long window, int key, int scancode, int action, int mods) {
-                inputManager.handleKeyEvent(key, mods, action);
+                keyInputManager.handleKeyEvent(key, mods, action);
             }};
         GLFW.glfwSetKeyCallback(window, keyCallback);
 
@@ -123,6 +129,34 @@ public class WindowManager {
         };
 
         GLFW.glfwSetFramebufferSizeCallback(window, frameBufferCallback);
+
+        mouseButtonCallback = new GLFWMouseButtonCallback() {
+            @Override
+            public void invoke(long window, int button, int action, int mods) {
+                mouseInputManager.handleMouseButtonEvent(button, mods, action);
+            }
+        };
+
+        GLFW.glfwSetMouseButtonCallback(window, mouseButtonCallback);
+
+        cursorPosCallback = new GLFWCursorPosCallback() {
+
+            @Override
+            public void invoke(long window, double xpos, double ypos) {
+                mouseInputManager.handleMouseMove(xpos, ypos);
+            }
+        };
+
+        GLFW.glfwSetCursorPosCallback(window, cursorPosCallback);
+
+        cursorEnterCallback = new GLFWCursorEnterCallback() {
+            @Override
+            public void invoke(long window, boolean entered) {
+                mouseInputManager.setEntered(entered);
+            }
+        };
+
+        GLFW.glfwSetCursorEnterCallback(window, cursorEnterCallback);
 
         glDebugMessageCallback(debugCallback, 0);
     }
@@ -144,6 +178,9 @@ public class WindowManager {
 
         keyCallback.free();
         frameBufferCallback.free();
+        mouseButtonCallback.free();
+        cursorEnterCallback.free();
+        cursorPosCallback.free();
         debugCallback.free();
     }
 

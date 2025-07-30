@@ -5,7 +5,8 @@ import org.lukah.config.Settings;
 import org.lukah.physics.engine.Engine;
 import org.lukah.visualisation.graphics.Shader;
 import org.lukah.visualisation.graphics.shapes.TrailLine;
-import org.lukah.visualisation.input.InputManager;
+import org.lukah.visualisation.input.KeyInputManager;
+import org.lukah.visualisation.input.MouseInputManager;
 import org.lukah.visualisation.scene.Camera;
 import org.lukah.visualisation.scene.Scene;
 import org.lukah.visualisation.scene.SimulationObject;
@@ -50,7 +51,8 @@ public class Application {
         windowManager.init();
 
         this.camera = new Camera(currentAspectRatio(), settings.cameraSettings);
-        windowManager.setInputManager(new InputManager(engine, camera, settings.keyBindings, settings.cameraSettings));
+        windowManager.setInputManager(new KeyInputManager(engine, camera, settings.keyBindings, settings.cameraSettings));
+        windowManager.setMouseInputManager(new MouseInputManager(camera, settings.mouseButtonBindings));
         windowManager.initCallbacks();
 
 
@@ -141,11 +143,7 @@ public class Application {
 
     public static void main(String[] args) {
 
-
         Application app = new Application();
-        app.setFrameRate(60);
         app.run();
-
-
     }
 }

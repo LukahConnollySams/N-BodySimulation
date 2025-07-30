@@ -10,7 +10,8 @@
     "initTarget": [0, 0, 0],
     "moveSpeed": 0.1,
     "fastMoveSpeed": 0.01,
-    "turnSpeed": 1
+    "horizontalSensitivity": 0.1,
+    "verticalSensitivity": 0.1
   },
   "engineSettings": {
     "startPaused": false,
@@ -29,6 +30,9 @@
     "moveFastMod": "SHIFT_MOD",
     "slowEngine": "LEFT",
     "hasteEngine": "RIGHT"
+  },
+  "mouseButtonBindings": {
+    "toggleCamera": "LEFT_BUTTON"
   },
   "renderSettings": {
     "clearColour": [0.0, 0.0, 0.0, 1.0],
