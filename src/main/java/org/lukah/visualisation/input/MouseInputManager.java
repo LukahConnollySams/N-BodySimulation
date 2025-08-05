@@ -52,10 +52,10 @@ public class MouseInputManager {
 
             prevPos.set(xpos, ypos);
         }
-
     }
 
     public void handleMouseButtonEvent(int button, int mods, int action) {
+
         if (button == mouseButtonBindings.toggleCamera) {
             camera.setCanRotate(action == GLFW.GLFW_PRESS);
         }
@@ -71,6 +71,7 @@ public class MouseInputManager {
     }
 
     public Vector2f calcPosDiff() {
+
         this.posDiff.x = (float) (currentPos.x - prevPos.x);
         this.posDiff.y = (float) (currentPos.y - prevPos.y);
 

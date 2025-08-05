@@ -51,11 +51,17 @@ public class Sphere extends Mesh {
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
 
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 6 * Float.BYTES, 0);
+        // vertices
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 8 * Float.BYTES, 0);
         glEnableVertexAttribArray(0);
 
-        glVertexAttribPointer(1, 3, GL_FLOAT, false, 6 * Float.BYTES, 3 * Float.BYTES);
+        // normals
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 8 * Float.BYTES, 3 * Float.BYTES);
         glEnableVertexAttribArray(1);
+
+        // texture coordinates
+        glVertexAttribPointer(2, 2, GL_FLOAT, false, 8 * Float.BYTES, 6 * Float.BYTES);
+        glEnableVertexAttribArray(2);
 
         ebo = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
@@ -81,12 +87,18 @@ public class Sphere extends Mesh {
                 float cosPhi = (float) Math.cos(phi);
 
                 float x = sinTheta * cosPhi;
-                // float y = cosTheta;
-                float z = sinTheta * sinPhi;
+                float y = sinTheta * sinPhi;
+                // float z = cosTheta;
 
                 vertices.add(x);
+                vertices.add(y);
                 vertices.add(cosTheta);
-                vertices.add(z);
+
+                float u = (float) j / lonSegments;
+                float v = (float) i / latSegments;
+
+                vertices.add(u);
+                vertices.add(v);
             }
         }
         return vertices;
@@ -130,20 +142,23 @@ public class Sphere extends Mesh {
 
     private float[] genVertexArray(List<Float> vertices, List<Float> normals) {
 
-        int verticesSize = vertices.size() / 3;
+        int verticesSize = vertices.size() / 5;
 
-        float[] vertexArray = new float[verticesSize * 6];
+        float[] vertexArray = new float[verticesSize * 8];
 
         for (int i = 0; i < verticesSize; i++) {
 
-            // assigns first three float to positions, and second set to normals
-            vertexArray[i * 6] = vertices.get(i * 3);
-            vertexArray[i * 6 + 1] = vertices.get(i * 3 + 1);
-            vertexArray[i * 6 + 2] = vertices.get(i * 3 + 2);
+            // assigns first three floats to positions, second set to normals, and last 2 to uv
+            vertexArray[i * 8] = vertices.get(i * 5);
+            vertexArray[i * 8 + 1] = vertices.get(i * 5 + 1);
+            vertexArray[i * 8 + 2] = vertices.get(i * 5 + 2);
 
-            vertexArray[i * 6 + 3] = normals.get(i * 3);
-            vertexArray[i * 6 + 4] = normals.get(i * 3 + 1);
-            vertexArray[i * 6 + 5] = normals.get(i * 3 + 2);
+            vertexArray[i * 8 + 3] = normals.get(i * 3);
+            vertexArray[i * 8 + 4] = normals.get(i * 3 + 1);
+            vertexArray[i * 8 + 5] = normals.get(i * 3 + 2);
+
+            vertexArray[i * 8 + 6] = vertices.get(i * 5 + 3);
+            vertexArray[i * 8 + 7] = vertices.get(i * 5 + 4);
         }
 
         return vertexArray;
@@ -153,7 +168,7 @@ public class Sphere extends Mesh {
 
         List<Float> normals = new ArrayList<>();
 
-        for (int i = 0; i < vertices.size(); i += 3) {
+        for (int i = 0; i < vertices.size(); i += 5) {
 
             Vector3f vector = new Vector3f(
                     vertices.get(i),

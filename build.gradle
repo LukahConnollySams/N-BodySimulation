@@ -18,10 +18,12 @@ dependencies {
     implementation "org.lwjgl:lwjgl:$lwjglVersion"
     implementation "org.lwjgl:lwjgl-glfw:$lwjglVersion"
     implementation "org.lwjgl:lwjgl-opengl:$lwjglVersion"
+    implementation "org.lwjgl:lwjgl-stb:$lwjglVersion"
 
     runtimeOnly "org.lwjgl:lwjgl:$lwjglVersion:natives-$os"
     runtimeOnly "org.lwjgl:lwjgl-glfw:$lwjglVersion:natives-$os"
     runtimeOnly "org.lwjgl:lwjgl-opengl:$lwjglVersion:natives-$os"
+    runtimeOnly "org.lwjgl:lwjgl-stb:$lwjglVersion:natives-$os"
 
     implementation "org.joml:joml:1.10.5"
     implementation "net.objecthunter:exp4j:0.4.8"

@@ -132,6 +132,7 @@ public class Application {
     }
 
     private void cleanup() {
+
         scene.cleanup();
         renderer.cleanup();
     }

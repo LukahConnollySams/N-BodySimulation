@@ -4,6 +4,7 @@ import org.joml.Vector3f;
 import org.lukah.config.Settings;
 import org.lukah.physics.simulation.planetary.Body;
 import org.lukah.physics.simulation.planetary.BodySim;
+import org.lukah.visualisation.graphics.Texture;
 import org.lukah.visualisation.graphics.shapes.Sphere;
 import org.lukah.visualisation.scene.SimulationObject;
 
@@ -42,7 +43,8 @@ public class Engine implements EngineController{
                     sphere,
                     metersToAU(bodies[i].getCurrentPosition()), // AU conversion for better vertices precision
                     logScale(metersToAU(bodies[i].getRadius())), // log scaling need as relative sizes can be problematic
-                    hexToNormRGB(bodies[i].getColour())
+                    hexToNormRGB(bodies[i].getColour()),
+                    Texture.getDefaultsPath() + bodies[i].getName() + ".jpg"
             );
         }
 

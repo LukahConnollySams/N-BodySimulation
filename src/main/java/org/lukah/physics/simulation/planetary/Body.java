@@ -43,6 +43,10 @@ public class Body {
         return pos[1];
     }
 
+    public String getName() {
+        return name;
+    }
+
     public float getRadius() {
         return radius;
     }

@@ -42,7 +42,7 @@
   "sceneSettings": {
     "lightDirection": [-1.0, -1.0, -1.0],
     "lightColour": [1.0, 1.0, 1.0],
-    "ambientColour": [0.2, 0.2, 0.2]
+    "ambientColour": [0.01, 0.01, 0.01]
   },
   "trailSettings": {
     "lifeTime": 10000,

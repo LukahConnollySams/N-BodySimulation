@@ -4,6 +4,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lukah.config.Settings;
 import org.lukah.visualisation.graphics.Shader;
+import org.lukah.visualisation.graphics.Texture;
 import org.lukah.visualisation.graphics.shapes.TrailLine;
 import org.lukah.visualisation.graphics.shapes.Mesh;
 import org.lukah.visualisation.scene.Camera;
@@ -11,6 +12,8 @@ import org.lukah.visualisation.scene.Scene;
 import org.lukah.visualisation.scene.SimulationObject;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL20.glUniform3f;
 import static org.lwjgl.opengl.GL20C.glGetUniformLocation;
 
@@ -53,7 +56,7 @@ public class Renderer {
 
         for (SimulationObject object : scene.getObjects()) {
 
-            render(object.getMesh(), object.getTransform(), object.getColour());
+            render(object.getMesh(), object.getTexture(), object.getTransform(), object.getColour(), object.isUseTexture());
         }
         objectShader.unbind();
 
@@ -82,14 +85,21 @@ public class Renderer {
         glDisable(GL_BLEND);
     }
 
-    public void render(Mesh mesh, Matrix4f model, Vector3f colour) {
+    public void render(Mesh mesh, Texture texture, Matrix4f model, Vector3f colour, boolean useTexture) {
 
         objectShader.setUniform("model", model);
         objectShader.setUniform("objectColour", colour);
 
+        glActiveTexture(GL_TEXTURE0);
+        texture.bind();
+        objectShader.setUniform("textureSampler", 0);
+        objectShader.setUniform("useTexture", useTexture);
+
         mesh.bind();
         glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
         mesh.unbind();
+
+        texture.unbind();
     }
 
     public void render(TrailLine line) {

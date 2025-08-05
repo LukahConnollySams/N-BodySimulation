@@ -60,6 +60,16 @@ public class Shader {
         glUniform3f(location, vector.x, vector.y, vector.z);
     }
 
+    public void setUniform(String name, int value) {
+        int location = glGetUniformLocation(programID, name);
+        glUniform1i(location, value);
+    }
+
+    public void setUniform(String name, boolean value) {
+        int location = glGetUniformLocation(programID, name);
+        glUniform1i(location, value ? 1 : 0);
+    }
+
     private int compileShader(String code, int type) {
         int shaderID = glCreateShader(type);
         glShaderSource(shaderID, code);
