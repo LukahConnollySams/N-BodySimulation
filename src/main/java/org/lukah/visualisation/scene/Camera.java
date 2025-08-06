@@ -83,9 +83,11 @@ public class Camera implements CameraController{
 
     public void move(Vector3f vector, float speed) {
 
+        Vector3f relVector = rotation.transform(new Vector3f(vector));
+
         setMoveSpeed(speed);
-        addPosition(vector);
-        addTarget(vector);
+        addPosition(relVector);
+        addTarget(relVector);
         updateViewProjection();
     }
 
