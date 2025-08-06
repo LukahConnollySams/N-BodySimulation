@@ -38,12 +38,12 @@ public class KeyInputManager {
 
     public void registerMovementBindings(Camera camera, float speed, int mods) {
 
-        bindKey(keyBindings.moveForward, mods, () -> camera.move(new Vector3f(0, 1f, 0), speed));
+        bindKey(keyBindings.moveForward, mods, () -> camera.move(new Vector3f(0, 0, -1f), speed));
         bindKey(keyBindings.moveLeft, mods, () -> camera.move(new Vector3f(-1f, 0, 0), speed));
-        bindKey(keyBindings.moveBack, mods, () -> camera.move(new Vector3f(0, -1f, 0), speed));
+        bindKey(keyBindings.moveBack, mods, () -> camera.move(new Vector3f(0, 0, 1f), speed));
         bindKey(keyBindings.moveRight, mods, () -> camera.move(new Vector3f(1, 0, 0), speed));
-        bindKey(keyBindings.moveUp, mods, () -> camera.move(new Vector3f(0, 0, 1f), speed));
-        bindKey(keyBindings.moveDown, mods, () -> camera.move(new Vector3f(0, 0, -1f), speed));
+        bindKey(keyBindings.moveUp, mods, () -> camera.move(new Vector3f(0, 1f, 0), speed));
+        bindKey(keyBindings.moveDown, mods, () -> camera.move(new Vector3f(0, -1f, 0), speed));
     }
 
     public void handleKeyEvent(int key, int mods, int action) {
