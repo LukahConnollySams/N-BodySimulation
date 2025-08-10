@@ -7,12 +7,17 @@ import org.lukah.visualisation.scene.Camera;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class KeyInputManager {
 
     private final Map<MultiKey, Runnable> keyBinds = new HashMap<>();
     private final Settings.KeyBindings keyBindings;
+    private Set<MultiKey> keyStateHandler = new HashSet<>();
+
+    private int previousMod;
 
     public KeyInputManager(EngineController controller, Camera camera, Settings.KeyBindings keyBindings, Settings.CameraSettings cameraSettings) {
 
@@ -24,7 +29,7 @@ public class KeyInputManager {
         registerMovementBindings(camera, cameraSettings.fastMoveSpeed, keyBindings.moveFastMod);
     }
 
-    public void bindKey(int key, int mods, Runnable action) {
+    private void bindKey(int key, int mods, Runnable action) {
 
         this.keyBinds.put(new MultiKey(key, mods), action);
     }
@@ -48,9 +53,40 @@ public class KeyInputManager {
 
     public void handleKeyEvent(int key, int mods, int action) {
 
-        if (action == GLFW.GLFW_PRESS || action == GLFW.GLFW_REPEAT) {
+        MultiKey pressedKey = new MultiKey(key, mods);
 
-            Runnable command = this.keyBinds.get(new MultiKey(key, mods));
+        if (action == GLFW.GLFW_PRESS) {
+
+            keyStateHandler.add(pressedKey);
+
+        } else if (action == GLFW.GLFW_RELEASE) {
+
+            keyStateHandler.remove(pressedKey);
+        }
+
+        if (previousMod != mods) updateModifiers(mods);
+        this.previousMod = mods;
+    }
+
+    private void updateModifiers(int mod) {
+
+        Set<MultiKey> newKeyStateHandler = new HashSet<>();
+        MultiKey[] oldKeyStateHandler = keyStateHandler.toArray(new MultiKey[0]);
+
+        for (MultiKey key : oldKeyStateHandler) {
+
+            MultiKey newKey = new MultiKey(key.getKey(), mod);
+            newKeyStateHandler.add(newKey);
+        }
+
+        this.keyStateHandler = newKeyStateHandler;
+    }
+
+    public void executeKeys() {
+
+        for (MultiKey key : keyStateHandler) {
+
+            Runnable command = keyBinds.get(key);
             if (command != null) command.run();
         }
     }

@@ -22,6 +22,7 @@ public class Application {
     private Scene scene;
     private Engine engine;
     private Camera camera;
+    private KeyInputManager keyInputManager;
     private int frameRate;
 
     Settings settings;
@@ -51,7 +52,9 @@ public class Application {
         windowManager.init();
 
         this.camera = new Camera(currentAspectRatio(), settings.cameraSettings);
-        windowManager.setInputManager(new KeyInputManager(engine, camera, settings.keyBindings, settings.cameraSettings));
+        this.keyInputManager = new KeyInputManager(engine, camera, settings.keyBindings, settings.cameraSettings);
+
+        windowManager.setInputManager(keyInputManager);
         windowManager.setMouseInputManager(new MouseInputManager(camera, settings.mouseButtonBindings));
         windowManager.initCallbacks();
 
@@ -108,6 +111,8 @@ public class Application {
 
             windowManager.swapBuffers();
             windowManager.pollEvents();
+
+            keyInputManager.executeKeys();
         }
 
         cleanup();

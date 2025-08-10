@@ -2,6 +2,8 @@ package org.lukah.visualisation.input;
 
 public class MultiKey {
 
+    public static int hashPrime = 31;
+
     private final int key;
     private final int mods;
 
@@ -9,6 +11,10 @@ public class MultiKey {
 
         this.key = key;
         this.mods = mods;
+    }
+
+    public int getKey() {
+        return key;
     }
 
     @Override
@@ -20,6 +26,6 @@ public class MultiKey {
 
     @Override
     public int hashCode() {
-        return 31 * key + mods;
+        return hashPrime * key + mods;
     }
 }
